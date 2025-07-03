@@ -1,0 +1,30 @@
+name: Daily Website Update
+
+on:
+  schedule:
+    - cron: '0 5 * * *'  # Every day at 5:00 UTC
+  workflow_dispatch:      # Also allow manual runs
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Run update script
+        run: python update_site.py
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add index.html
+          git commit -m "Daily update" || echo "No changes to commit"
+          git push
