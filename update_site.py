@@ -1,20 +1,34 @@
 from datetime import datetime
 
-# Generate updated HTML content with current UTC timestamp
-timestamp = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
+# Read current count
+with open("count.txt", "r") as f:
+    count = int(f.read().strip())
 
-html_content = f"""
+# Increment count
+count += 1
+
+# Save new count
+with open("count.txt", "w") as f:
+    f.write(str(count))
+
+# Get current time (UTC, formatted)
+now = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
+
+# Generate HTML
+html = f"""
 <!DOCTYPE html>
 <html>
   <head>
     <title>Auto-Updating Site</title>
   </head>
   <body>
-    <h1>Last updated: {timestamp}</h1>
+    <h1>🚀 This site has been updated {count} times!</h1>
+    <p>⏰ Current UTC time: {now}</p>
+    <p>📅 Last update count: {count}</p>
   </body>
 </html>
 """
 
-# Overwrite index.html with new content
+# Write HTML
 with open("index.html", "w") as f:
-    f.write(html_content)
+    f.write(html)
