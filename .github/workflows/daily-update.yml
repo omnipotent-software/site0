@@ -2,8 +2,8 @@ name: Daily Website Update
 
 on:
   schedule:
-    - cron: '0 5 * * *'  # Every day at 5:00 UTC
-  workflow_dispatch:      # Also allow manual runs
+    - cron: '35 5 * * *'  # 11:35 PM CST (5:35 AM UTC)
+  workflow_dispatch:
 
 jobs:
   update:
@@ -25,6 +25,6 @@ jobs:
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
-          git add index.html
+          git add index.html count.txt
           git commit -m "Daily update" || echo "No changes to commit"
           git push
